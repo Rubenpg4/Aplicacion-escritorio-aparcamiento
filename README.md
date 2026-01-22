@@ -26,6 +26,7 @@
 - [🌐 Sistema de Internacionalización](#-sistema-de-internacionalización)
 - [⚙️ Configuración Avanzada](#️-configuración-avanzada)
 - [📁 Estructura del Proyecto](#-estructura-del-proyecto)
+- [📝 Licencia](#-licencia)
 
 ---
 
@@ -470,72 +471,6 @@ Parking&CO/
 └── 📂 mockups/                 # Diseños de interfaz
     ├── Mockup primeraVista.png
     └── Mockup segundaVista.png
-```
-
----
-
-## 🔄 Flujo de Reserva Completo
-
-```mermaid
-stateDiagram-v2
-    [*] --> SeleccionParking: Inicia aplicación
-    
-    SeleccionParking --> VistaParking: Click en parking
-    
-    state VistaParking {
-        [*] --> CargarMatriz
-        CargarMatriz --> LeerPreferencias
-        LeerPreferencias --> RenderizarGrid
-        RenderizarGrid --> AplicarFiltros
-        
-        state AplicarFiltros {
-            [*] --> FiltrarVehiculo
-            FiltrarVehiculo --> FiltrarEspecificaciones
-            FiltrarEspecificaciones --> ActualizarColores
-        }
-        
-        AplicarFiltros --> EsperandoAccion
-        
-        EsperandoAccion --> ClickCasilla: Usuario hace click
-        ClickCasilla --> Ocupado: tipoCasilla == OCUPADO
-        ClickCasilla --> LibreSinReq: tipoCasilla == LIBRE_SR
-        ClickCasilla --> LibreConReq: tipoCasilla == LIBRE_CR
-        
-        Ocupado --> MostrarError
-        MostrarError --> EsperandoAccion
-        
-        LibreSinReq --> ConfirmacionDialog
-        ConfirmacionDialog --> Seleccionado: Confirma
-        ConfirmacionDialog --> EsperandoAccion: Cancela
-        
-        LibreConReq --> Seleccionado
-        
-        Seleccionado --> EsperandoAccion: Puede cambiar selección
-    }
-    
-    VistaParking --> ValidarReserva: Click Aceptar
-    
-    state ValidarReserva {
-        [*] --> VerificarMatricula
-        VerificarMatricula --> MatriculaVacia: vacía
-        VerificarMatricula --> MatriculaDuplicada: existe
-        VerificarMatricula --> VerificarSeleccion: válida
-        
-        MatriculaVacia --> ErrorMatricula
-        MatriculaDuplicada --> ErrorMatricula
-        
-        VerificarSeleccion --> SinSeleccion: ninguna
-        VerificarSeleccion --> ReservaExitosa: hay selección
-        
-        SinSeleccion --> ErrorSeleccion
-    }
-    
-    ValidarReserva --> GuardarDatos: Reserva válida
-    GuardarDatos --> ActualizarMatriz
-    ActualizarMatriz --> GuardarMatriculas
-    GuardarMatriculas --> SeleccionParking: Cierra diálogo
-    
-    ValidarReserva --> VistaParking: Error en validación
 ```
 
 ---
